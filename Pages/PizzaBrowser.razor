@@ -1,0 +1,42 @@
+﻿@page "/pizzabrowser"
+
+<h3>Pizza Browser</h3>
+
+<p>Discover today's deals and popular pizzas. Click <em>Add to cart</em> to simulate ordering.</p>
+
+<div class="d-flex flex-row flex-wrap">
+	@foreach (var pizza in pizzas)
+	{
+		<div class="card m-2" style="width:18rem">
+			<div class="card-body">
+				<h5 class="card-title">@pizza.Name</h5>
+				<p class="card-text">@pizza.Description</p>
+				<p><strong>Price:</strong> @pizza.Price.ToString("C")</p>
+				<button class="btn btn-primary" @onclick="() => AddToCart(pizza)">Add to cart</button>
+			</div>
+		</div>
+	}
+</div>
+
+@if (cartCount > 0)
+{
+	<p class="mt-3">Cart: @cartCount item(s)</p>
+}
+
+@code {
+	private class PizzaItem { public string Name { get; set; } = ""; public string Description { get; set; } = ""; public decimal Price { get; set; } }
+
+	private List<PizzaItem> pizzas = new()
+	{
+		new PizzaItem { Name = "Margherita", Description = "Tomato, mozzarella, basil", Price = 8.99m },
+		new PizzaItem { Name = "Pepperoni", Description = "Pepperoni and extra cheese", Price = 9.99m },
+		new PizzaItem { Name = "Hawaiian", Description = "Ham and pineapple", Price = 10.49m }
+	};
+
+	private int cartCount = 0;
+
+	private void AddToCart(PizzaItem item)
+	{
+		cartCount++;
+	}
+}
